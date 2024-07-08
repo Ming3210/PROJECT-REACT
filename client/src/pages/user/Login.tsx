@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { closeForm } from "../store/reducers/homeReducer";
+import { closeForm } from "../../store/reducers/homeReducer";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {

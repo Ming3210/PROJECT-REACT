@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import User from "../interface";
+import User from "../../interface";
 import { useDispatch, useSelector } from "react-redux";
 import {
   checkEmail,
   closeRegisterForm,
   getUser,
-} from "../store/reducers/homeReducer";
+} from "../../store/reducers/homeReducer";
 import { useNavigate } from "react-router-dom";
 
 export default function Register() {

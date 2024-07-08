@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { storage } from "../config/firebase";
+import { storage } from "../../config/firebase";
 import axios from "axios";
 
-export default function AddCategory() {
+export default function AddProduct() {
   const [selectedFile, setSelectedFile] = useState<any>();
   const [preview, setPreview] = useState<any>();
 
-  // create a preview as a side effect, whenever selected file is changed
   useEffect(() => {
     if (!selectedFile) {
       setPreview(undefined);
@@ -28,13 +27,11 @@ export default function AddCategory() {
     uploadBytes(imageRef, image).then((snapshot) => {
       getDownloadURL(snapshot.ref).then((url: any) => {
         console.log(url);
-        const category = {
+        const product = {
           name: name,
           image: url,
         };
-        console.log(category);
-
-        axios.post("http://localhost:8080/category", category);
+        axios.post("http://localhost:8080/product", product);
       });
     });
     setName("");
@@ -51,22 +48,35 @@ export default function AddCategory() {
     console.log(111, valueImage);
     setImage(valueImage);
   };
-  const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChanges = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
   };
 
   return (
     <div>
-      <label htmlFor="">Category name</label>
+      <label htmlFor="">Product name</label>
       <br />
-      <input type="text" value={name} onChange={handleChangeName} />
+      <input type="text" value={name} onChange={handleChanges} />
+      <br />
+      <select name="" id="">
+        <option value="1">Bedroom</option>
+        <option value="1">Office</option>
+      </select>
+      <br />
+      <label htmlFor="">Description</label>
+      <br />
+      <textarea
+        name=""
+        id=""
+        className="w-[300px] h-[100px] resize-y"
+      ></textarea>
       <br />
       <label htmlFor="">Image</label>
       <br />
       {selectedFile ? <img className="max-w-[300px]" src={preview} /> : ""}
       <input type="file" onChange={handleChange} />
       <br />
-      <button onClick={uploadImage}>Add category</button>
+      <button onClick={uploadImage}>Add product</button>
     </div>
   );
 }

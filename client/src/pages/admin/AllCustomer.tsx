@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import User from "../interface/index";
+import User from "../../interface/index";
 import {
   allUsers,
   changeUserStatus,
   customerDisplayForm,
   display,
-} from "../store/reducers/adminReducer";
+} from "../../store/reducers/adminReducer";
 import CustomerDisplay from "./CustomerDisplay";
 
 export default function AllCustomer() {

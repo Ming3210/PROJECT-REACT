@@ -1,10 +1,10 @@
 import React from "react";
 import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
-import Login from "../pages/Login";
+import Login from "./Login";
 import { CiSearch } from "react-icons/ci";
 import { GiScrollUnfurled } from "react-icons/gi";
 import { useDispatch, useSelector } from "react-redux";
-import { openForm, openRegisterForm } from "../store/reducers/homeReducer";
+import { openForm, openRegisterForm } from "../../store/reducers/homeReducer";
 import Register from "./Register";
 import { MdAlignHorizontalLeft } from "react-icons/md";
 
@@ -34,7 +34,7 @@ export default function Home() {
               <span className="text-[30px] text-purple-500">craft</span>
             </Link>
             <div className="w-full max-w-xl flex static">
-              <span className="absolute left-4 top-[10px] text-lg text-gray-400">
+              <span className="relative left-7 text-[50px] top-[10px] text-lg text-gray-400">
                 <CiSearch />
               </span>
               <input

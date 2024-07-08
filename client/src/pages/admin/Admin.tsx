@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { FaCartPlus, FaUsers, FaVanShuttle } from "react-icons/fa6";
-import "../styles/admin.css";
+import "../../styles/admin.css";
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
