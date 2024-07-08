@@ -13,6 +13,7 @@ import { Button, Layout, Menu, theme } from "antd";
 import { SiProducthunt } from "react-icons/si";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { BiLogOut } from "react-icons/bi";
+import { IoAdd } from "react-icons/io5";
 
 const { Header, Sider, Content } = Layout;
 export default function Admin() {
@@ -70,6 +71,11 @@ export default function Admin() {
                   key: "check-user",
                   label: "All customer",
                   icon: <UploadOutlined />,
+                },
+                {
+                  key: "add-user",
+                  label: "Add customer",
+                  icon: <IoAdd />,
                 },
               ],
             },

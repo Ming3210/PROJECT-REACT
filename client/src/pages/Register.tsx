@@ -113,6 +113,7 @@ export default function Register() {
                   viewBox="0 0 744.84799 747.07702"
                 ></svg>
               </div>
+
               <div className="w-full md:w-1/2 py-10 px-5 md:px-10">
                 <div className="text-center mb-10">
                   <h1 className="font-bold text-3xl text-gray-900">REGISTER</h1>
@@ -263,6 +264,12 @@ export default function Register() {
                     </div>
                   </div>
                 </div>
+              </div>
+              <div
+                onClick={closeForm}
+                className="text-end text-[50px] hover:cursor-pointer"
+              >
+                X
               </div>
             </div>
           </div>

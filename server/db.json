@@ -1,0 +1,90 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Bed",
+      "category": 1,
+      "description": "Beautiful",
+      "price": 10000000,
+      "image": "https://th.bing.com/th/id/OIP.btwYOFUS1ZiwU42chCiGwgHaHa?rs=1&pid=ImgDetMain"
+    }
+  ],
+  "users": [
+    {
+      "id": 2,
+      "username": "abcxyz123",
+      "email": "123@gmail.com",
+      "role": false,
+      "avatar": "https://th.bing.com/th/id/OIP.btwYOFUS1ZiwU42chCiGwgHaHa?rs=1&pid=ImgDetMain",
+      "phone": 123456,
+      "address": "Thanh Hoa",
+      "created_at": "07-05-2024",
+      "updated_at": "07-05-2024",
+      "password": "1231312312",
+      "status": false,
+      "cart": [],
+      "fname": "Pham",
+      "lname": "Minh"
+    },
+    {
+      "id": 3,
+      "username": "abcxyz1234",
+      "email": "1234@gmail.com",
+      "role": false,
+      "avatar": "https://th.bing.com/th/id/OIP.btwYOFUS1ZiwU42chCiGwgHaHa?rs=1&pid=ImgDetMain",
+      "phone": 1234565,
+      "address": "Thanh Hoa",
+      "created_at": "07-05-2024",
+      "updated_at": "07-05-2024",
+      "password": "1231312312",
+      "status": false,
+      "cart": [],
+      "fname": "Pham",
+      "lname": "Hai"
+    },
+    {
+      "id": 4,
+      "username": "abcxyz12345",
+      "email": "12345@gmail.com",
+      "role": false,
+      "avatar": "https://th.bing.com/th/id/OIP.btwYOFUS1ZiwU42chCiGwgHaHa?rs=1&pid=ImgDetMain",
+      "phone": 1234565,
+      "address": "Thanh Hoa",
+      "created_at": "07-05-2024",
+      "updated_at": "07-05-2024",
+      "password": "1231312312",
+      "status": true,
+      "cart": [],
+      "fname": "Pham",
+      "lname": "Vy"
+    },
+    {
+      "fname": "Pham Van",
+      "lname": "Minh",
+      "username": "Ming321",
+      "role": false,
+      "email": "aabcxyz012@gmail.com",
+      "password": "123456",
+      "phone": "0355129455",
+      "address": "Đông Tiến",
+      "created_at": "2024-07-07",
+      "updated_at": "2024-07-07",
+      "status": true,
+      "cart": [],
+      "avatar": "https://as2.ftcdn.net/v2/jpg/03/31/69/91/1000_F_331699188_lRpvqxO5QRtwOM05gR50ImaaJgBx68vi.jpg",
+      "id": 5
+    }
+  ],
+  "category": [
+    {
+      "id": 1,
+      "name": "Bedroom",
+      "image": "https://th.bing.com/th/id/OIP.btwYOFUS1ZiwU42chCiGwgHaHa?rs=1&pid=ImgDetMain"
+    },
+    {
+      "id": 3,
+      "name": "Office",
+      "image": "https://th.bing.com/th/id/OIP.btwYOFUS1ZiwU42chCiGwgHaHa?rs=1&pid=ImgDetMain"
+    }
+  ]
+}

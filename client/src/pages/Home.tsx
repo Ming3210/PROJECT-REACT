@@ -6,6 +6,7 @@ import { GiScrollUnfurled } from "react-icons/gi";
 import { useDispatch, useSelector } from "react-redux";
 import { openForm, openRegisterForm } from "../store/reducers/homeReducer";
 import Register from "./Register";
+import { MdAlignHorizontalLeft } from "react-icons/md";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ export default function Home() {
       {state.home.formLogin ? <Login></Login> : ""}
       <div>
         <header className="place-content-center p-4 py-4 shadow-sm bg-white">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-evenly">
             <Link className="no-underline" to="/">
               <GiScrollUnfurled size={40} />{" "}
               <span className="text-[40px] text-sky-400">Furni</span>
@@ -61,7 +62,64 @@ export default function Home() {
             </div>
           </div>
         </header>
-        <nav className="bg-gray-100 p-4 shadow-md">
+        <nav className="bg-gray-800">
+          <div className="flex">
+            <div className="flex items-center justify-evenly flex-grow pl-12">
+              <div className="px-8 py-4 bg-red-400 flex items-center cursor-pointer">
+                <span className="text-white">
+                  <MdAlignHorizontalLeft />
+                </span>
+                <span className="capitalize ml-2 text-white">
+                  All categories
+                </span>
+              </div>
+              <div className="flex items-center space-x-6 capitalize">
+                <NavLink
+                  to=""
+                  className="text-gray-200 no-underline hover:text-white transition"
+                >
+                  Home
+                </NavLink>
+                <NavLink
+                  to=""
+                  className="text-gray-200 no-underline hover:text-white transition"
+                >
+                  Shop
+                </NavLink>
+                <NavLink
+                  to=""
+                  className="text-gray-200 no-underline hover:text-white transition"
+                >
+                  About us
+                </NavLink>
+                <NavLink
+                  to=""
+                  className="text-gray-200 no-underline hover:text-white transition"
+                >
+                  Contact us
+                </NavLink>
+              </div>
+              <div>
+                <NavLink
+                  onClick={openLoginForm}
+                  to=""
+                  className="text-gray-200 no-underline hover:text-white transition"
+                >
+                  Login
+                </NavLink>
+                <span className="text-white">/</span>
+                <NavLink
+                  to=""
+                  onClick={openSignUpForm}
+                  className="text-gray-200 no-underline hover:text-white transition"
+                >
+                  Register
+                </NavLink>
+              </div>
+            </div>
+          </div>
+        </nav>
+        {/* <nav className="bg-gray-100 p-4 shadow-md">
           <div className="flex justify-center space-x-4">
             <NavLink
               to="/"
@@ -95,7 +153,7 @@ export default function Home() {
               Register
             </button>
           </div>
-        </nav>
+        </nav> */}
         <Outlet />
         {/* <nav>
         <div className="flex">
