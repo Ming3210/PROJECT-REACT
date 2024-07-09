@@ -32,7 +32,6 @@ export default function App() {
             element={<AllProduct></AllProduct>}
           ></Route>
           <Route path="cart" element={<Cart></Cart>}></Route>
-
           <Route path="add-product" element={<AddProduct></AddProduct>}></Route>
           <Route
             path="check-user"
