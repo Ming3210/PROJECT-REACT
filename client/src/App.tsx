@@ -24,6 +24,10 @@ export default function App() {
         <Route path="/admin" element={<Admin></Admin>}>
           <Route path="" element={<Dashboard></Dashboard>}></Route>
           <Route
+            path="all-category"
+            element={<AllCategory></AllCategory>}
+          ></Route>
+          <Route
             path="check-product"
             element={<AllProduct></AllProduct>}
           ></Route>

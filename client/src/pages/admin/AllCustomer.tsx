@@ -90,7 +90,15 @@ export default function AllCustomer() {
                     {/* <button className="mr-6 font-medium border-0 bg-dark text-red-500  hover:cursor-pointer w-[20%] h-[30px] rounded-lg">
                       Delete
                     </button> */}
-                    {item.status ? (
+
+                    {item.role ? (
+                      <button className="mr-3 font-medium border-0 bg-yellow-500 text-black w-[40%] h-[30px] rounded-lg">
+                        Ban
+                      </button>
+                    ) : (
+                      ""
+                    )}
+                    {item.status && item.role == false ? (
                       <button
                         onClick={() => changeStatus(item)}
                         className="mr-3 font-medium border-0 bg-red-500 text-black  hover:cursor-pointer w-[40%] h-[30px] rounded-lg"
@@ -98,12 +106,17 @@ export default function AllCustomer() {
                         Ban
                       </button>
                     ) : (
+                      ""
+                    )}
+                    {!item.status && item.role == false ? (
                       <button
                         onClick={() => changeStatus(item)}
                         className="mr-3 font-medium border-0 bg-green-500 text-black  hover:cursor-pointer w-[40%] h-[30px] rounded-lg"
                       >
                         Unban
                       </button>
+                    ) : (
+                      ""
                     )}
                     <button
                       onClick={() => displayUser(item)}

@@ -1,15 +1,94 @@
-import React from "react";
-import { useDispatch } from "react-redux";
-import { closeEditFormP } from "../../store/reducers/adminReducer";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { storage } from "../../config/firebase";
+import { closeEditFormP, editProduct } from "../../store/reducers/adminReducer";
 
 export default function EditProductForm() {
+  const date = new Date().toISOString().split("T")[0];
+  const [image, setImage] = useState<any>(null);
+  const [selectedFile, setSelectedFile] = useState<any>(null);
+  const [preview, setPreview] = useState<any>(null);
+
+  const state: any = useSelector((state) => state);
+  const [inputValue, setInputValue] = useState<any>({
+    name: state.admin.editedProduct.name,
+    image: state.admin.editedProduct.image,
+    price: state.admin.editedProduct.price,
+    quantity: state.admin.editedProduct.quantity,
+    description: state.admin.editedProduct.description,
+    category: state.admin.editedProduct.category,
+    created_at: state.admin.editedProduct.created_at,
+    updated_at: date,
+  });
   const dispatch = useDispatch();
   const onClose = () => {
     dispatch(closeEditFormP());
     // Close form
   };
+  useEffect(() => {
+    if (!selectedFile) {
+      setPreview(undefined);
+      return;
+    }
+
+    const objectUrl = URL.createObjectURL(selectedFile);
+    setPreview(objectUrl);
+
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [selectedFile]);
   const handleSave = () => {
+    dispatch(closeEditFormP());
     // Save changes to the product
+
+    if (image) {
+      const imageRef = ref(storage, `images/${image.name}`);
+      uploadBytes(imageRef, image).then((snapshot) => {
+        getDownloadURL(snapshot.ref).then((url) => {
+          const product = {
+            id: state.admin.editedProduct.id,
+            name: inputValue.name,
+            image: url || inputValue.image,
+            price: Number(inputValue.price),
+            quantity: Number(inputValue.quantity),
+            description: inputValue.description,
+            category: Number(inputValue.category),
+            created_at: inputValue.created_at,
+            updated_at: date,
+          };
+          dispatch(editProduct(product));
+        });
+      });
+    } else {
+      const product = {
+        id: state.admin.editedProduct.id,
+        name: inputValue.name,
+        image: inputValue.image,
+        price: Number(inputValue.price),
+        quantity: Number(inputValue.quantity),
+        description: inputValue.description,
+        category: Number(inputValue.category),
+        created_at: inputValue.created_at,
+        updated_at: date,
+      };
+      dispatch(editProduct(product));
+      dispatch(closeEditFormP());
+    }
+    setSelectedFile(null);
+  };
+  const imageChange = (e: any) => {
+    if (!e.target.files || e.target.files.length === 0) {
+      setSelectedFile(undefined);
+      return;
+    }
+
+    const file = e.target.files[0];
+    setSelectedFile(file);
+    setImage(file);
+  };
+
+  const handleChange = (e: any) => {
+    setInputValue({ ...inputValue, [e.target.name]: e.target.value });
   };
   return (
     <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center">
@@ -18,22 +97,58 @@ export default function EditProductForm() {
           <h2 className="text-xl font-bold mb-4">Edit Item</h2>
           <div className="mb-4">
             <label className="block text-gray-700">Name</label>
-            <input type="text" className="mt-1 p-2  border rounded" />
+            <input
+              onChange={handleChange}
+              name="name"
+              value={inputValue.name}
+              type="text"
+              className="mt-1 p-2  border rounded"
+            />
           </div>
           <div className="mb-4">
             <label className="block text-gray-700">Price</label>
-            <input type="number" className="mt-1 p-2  border rounded" />
+            <input
+              onChange={handleChange}
+              name="price"
+              value={inputValue.price}
+              type="number"
+              className="mt-1 p-2  border rounded"
+            />
           </div>
           <div className="mb-4">
             <label className="block text-gray-700">Quantity</label>
-            <input type="number" className="mt-1 p-2  border rounded" />
+            <input
+              onChange={handleChange}
+              name="quantity"
+              value={inputValue.quantity}
+              type="number"
+              className="mt-1 p-2  border rounded"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700">Image</label>
+            {selectedFile && (
+              <img className="max-w-full mb-4" src={preview} alt="Preview" />
+            )}
+            <input
+              onChange={imageChange}
+              name="image"
+              type="file"
+              className="mt-1 p-2  border rounded"
+            />
           </div>
           <div className="mb-4">
             <label className="block text-gray-700">Quantity</label>
-            <select className="w-[100%]" name="" id="">
+            <select
+              onChange={handleChange}
+              value={inputValue.category}
+              className="w-[100%]"
+              name="category"
+              id=""
+            >
               <option value=""> -- Select your category --</option>
-              <option value="">Bedroom</option>
-              <option value="">Office</option>
+              <option value={1}>Bedroom</option>
+              <option value={2}>Office</option>
             </select>
           </div>
           <div className="flex justify-center">

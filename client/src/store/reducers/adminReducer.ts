@@ -102,6 +102,18 @@ export const deleteProduct :any = createAsyncThunk("delete/product", async (id:a
   await axios.delete(`http://localhost:8080/products/${id}`);
   return {id}
 })
+export const getEditedProduct :any = createAsyncThunk("getEdited/product", async (prd)=>{
+  return prd
+})
+export const addProduct :any = createAsyncThunk("add/product", async(prd)=>{
+  const response = await axios.post(`http://localhost:8080/products`,prd)
+  return response.data
+})
+export const editProduct : any = createAsyncThunk("edit/product", async (prd:any)=>{
+  const response = await axios.patch(`http://localhost:8080/products/${prd.id}`,prd)
+  return response.data
+})
+
 const adminReducer = createSlice({
   name: "adminReducer",
   initialState:{
@@ -116,7 +128,9 @@ const adminReducer = createSlice({
     products:[],
     deleteFormProduct:false,
     editFormProduct:false,
-    deletedProduct:{}
+    deletedProduct:{},
+    editedProduct:{}
+
     // error: null,
     // loading: false,
     // user: null as User | null,
@@ -204,7 +218,20 @@ const adminReducer = createSlice({
       .addCase(deleteProduct.fulfilled, (state:any, action:any) => {
         state.products = state.products.filter((product:any) => product.id!== action.payload.id);
       })
+      .addCase(addProduct.fulfilled, (state:any,action:any) => {
+        state.products.push(action.payload);
+      })
+      .addCase(getEditedProduct.fulfilled, (state, action) => {
+        state.editedProduct = action.payload;
+      })
+      .addCase(editProduct.fulfilled, (state:any, action) => {
+        const updatedProductIndex:any = state.products.findIndex((p:any) => p.id === action.payload.id);
+        if (updatedProductIndex!== -1) {
+          state.products[updatedProductIndex] = action.payload;
+        }
+      })
       ;
+
   },
 });
 

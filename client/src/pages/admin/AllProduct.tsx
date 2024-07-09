@@ -4,6 +4,7 @@ import {
   getAllCategories,
   getAllProducts,
   getDeletedProduct,
+  getEditedProduct,
   openDeleteFormP,
   openEditFormP,
 } from "../../store/reducers/adminReducer";
@@ -31,6 +32,8 @@ export default function AllProduct() {
     dispatch(openDeleteFormP());
   };
   const openEditForm = (id: number) => {
+    let index = state.admin.products.find((product: any) => product.id === id);
+    dispatch(getEditedProduct(index));
     dispatch(openEditFormP());
   };
   return (
@@ -62,6 +65,9 @@ export default function AllProduct() {
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               Category
             </th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Image
+            </th>
             {/* <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
             Status
           </th> */}
@@ -90,6 +96,13 @@ export default function AllProduct() {
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   {cateList[index]}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <img
+                    src={item.image}
+                    className="w-[100px] h-[100px] rounded-full"
+                    alt=""
+                  />
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <button

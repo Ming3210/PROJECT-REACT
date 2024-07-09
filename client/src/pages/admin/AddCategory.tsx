@@ -30,6 +30,7 @@ export default function AddCategory() {
   });
   const uploadImage = (e: any) => {
     e.preventDefault();
+
     const imageRef = ref(storage, `images/${image.name}`);
     uploadBytes(imageRef, image).then((snapshot) => {
       getDownloadURL(snapshot.ref).then((url: any) => {
@@ -39,7 +40,6 @@ export default function AddCategory() {
           description: cate.description,
           status: cate.status,
           product: cate.product,
-          image: url,
         };
         console.log(category);
 
@@ -52,6 +52,7 @@ export default function AddCategory() {
       description: "",
       product: [],
     });
+
     setSelectedFile(false);
   };
   const handleChange = (e: any) => {
