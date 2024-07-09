@@ -44,7 +44,6 @@ export default function AddProduct() {
         axios.post("http://localhost:8080/product", product);
       });
     });
-    setName("");
     setSelectedFile(false);
   };
   const handleChange = (e: any) => {
@@ -58,15 +57,13 @@ export default function AddProduct() {
     console.log(111, valueImage);
     setImage(valueImage);
   };
-  const handleChanges = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
-  };
+  const handleChanges = (e: React.ChangeEvent<HTMLInputElement>) => {};
 
   return (
     <div>
       <label htmlFor="">Product name</label>
       <br />
-      <input type="text" value={name} onChange={handleChanges} />
+      <input type="text" onChange={handleChanges} />
       <br />
       <select name="" id="">
         <option value="1">Bedroom</option>
