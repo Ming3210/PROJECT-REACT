@@ -56,7 +56,6 @@ export default function AddProduct() {
         dispatch(addProduct(product));
       });
     });
-
     setSelectedFile(false);
   };
   const handleChange = (e: any) => {
