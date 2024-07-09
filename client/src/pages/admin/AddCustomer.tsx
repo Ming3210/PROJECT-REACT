@@ -210,6 +210,11 @@ export default function AddCustomer() {
               ) : (
                 ""
               )}
+              {emailErr && (
+                <p className="text-red-500 flex items-center">
+                  Email already exists in the system
+                </p>
+              )}
             </div>
             <div>
               <label className="text-white dark:text-gray-200">Password</label>
