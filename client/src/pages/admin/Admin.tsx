@@ -47,7 +47,7 @@ export default function Admin() {
           mode="inline"
           defaultSelectedKeys={[""]}
           defaultValue={["Dashboard"]}
-          onClick={({ key }) => {
+          onClick={({ key }: any) => {
             if (key === "logout") {
               setTimeout(() => {
                 navigate("/");

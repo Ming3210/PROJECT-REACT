@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { editCategory, editFormClose } from "../../store/reducers/adminReducer";
+import {} from "../../store/reducers/adminReducer";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../../config/firebase";
 import axios from "axios";
+import { editCategory, editFormClose } from "../../services/editCategoryForm";
 
 export default function EditCategoryForm() {
   const state: any = useSelector((state) => state);
@@ -12,10 +13,11 @@ export default function EditCategoryForm() {
   const [preview, setPreview] = useState<any>(null);
   const [image, setImage] = useState<any>(null);
   const [cate, setCate] = useState({
-    name: "",
-    status: true,
-    description: "",
-    product: [],
+    name: state.admin.editedCategory.name,
+    status: state.admin.editedCategory.status,
+    description: state.admin.editedCategory.description,
+    product: state.admin.editedCategory.product,
+    image: state.admin.editedCategory.image,
   });
 
   useEffect(() => {
@@ -48,14 +50,18 @@ export default function EditCategoryForm() {
     setSelectedFile(file);
     setImage(file);
   };
+  const handleChangeStatus = (e: any) => {
+    e.preventDefault();
+    setCate({ ...cate, status: !cate.status });
+  };
 
   const uploadImage = (e: any) => {
     e.preventDefault();
 
     if (image) {
-      const imageRef = ref(storage, `images/${image.name}`);
-      uploadBytes(imageRef, image).then((snapshot) => {
-        getDownloadURL(snapshot.ref).then((url) => {
+      const imageRef: any = ref(storage, `images/${image.name}`);
+      uploadBytes(imageRef, image).then((snapshot: any) => {
+        getDownloadURL(snapshot.ref).then((url: any) => {
           const category = {
             id: state.admin.editedCategory.id,
             name: cate.name,
@@ -84,6 +90,7 @@ export default function EditCategoryForm() {
       status: true,
       description: "",
       product: [],
+      image: "",
     });
     setSelectedFile(null);
     closeForm();
@@ -123,6 +130,18 @@ export default function EditCategoryForm() {
             name="description"
             className="w-full px-3 py-2 border border-gray-300 rounded-md resize-none h-28 focus:outline-none focus:ring-2 focus:ring-indigo-500"
           ></textarea>
+        </div>
+        <div className="mb-4">
+          <label
+            htmlFor="categoryName"
+            className="block text-gray-700 font-bold mb-2"
+          >
+            Status
+          </label>
+          <button onClick={handleChangeStatus}>
+            {" "}
+            {cate.status ? "Active" : "Inactive"}
+          </button>
         </div>
 
         <div className="mb-4">

@@ -1,9 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  closeDeleteFormP,
-  deleteProduct,
-} from "../../store/reducers/adminReducer";
+import {} from "../../store/reducers/adminReducer";
+import { closeDeleteFormP, deleteProduct } from "../../services/deleteProduct";
 
 export default function DeleteProductForm() {
   const state: any = useSelector((state) => state);

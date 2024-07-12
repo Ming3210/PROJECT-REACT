@@ -1,15 +1,37 @@
 {
   "products": [
     {
-      "id": 1,
-      "name": "Bed",
+      "name": "12sad",
+      "price": 123,
+      "quantity": 123,
+      "description": "12312",
       "category": 1,
-      "description": "Beautiful",
-      "quantity": 499,
-      "price": 7035000,
-      "created_at": "07-05-2024",
-      "updated_at": "2024-07-09",
-      "image": "https://firebasestorage.googleapis.com/v0/b/react-32712.appspot.com/o/images%2F211-2112234_pepe-the-frog-windows-10..png?alt=media&token=f42532bb-a03d-487f-910e-4b1051610450"
+      "created_at": "2024-07-11",
+      "updated_at": "2024-07-11",
+      "image": "https://firebasestorage.googleapis.com/v0/b/react-32712.appspot.com/o/images%2F211-2112234_pepe-the-frog-windows-101..png?alt=media&token=e7bdf80d-884f-4e3d-9980-2701a99d9c19",
+      "id": 1
+    },
+    {
+      "name": "Bed",
+      "price": 11111111111,
+      "quantity": 123,
+      "description": "Bed",
+      "category": 2,
+      "created_at": "2024-07-11",
+      "updated_at": "2024-07-11",
+      "image": "https://firebasestorage.googleapis.com/v0/b/react-32712.appspot.com/o/images%2F112312-removebg-preview.png?alt=media&token=c22de7e9-0c01-42d8-bef2-8bb2a1c761c0",
+      "id": 2
+    },
+    {
+      "name": "Lamp",
+      "price": 11111111111,
+      "quantity": 12,
+      "description": "1231123123123",
+      "category": 1,
+      "created_at": "2024-07-11",
+      "updated_at": "2024-07-11",
+      "image": "https://firebasestorage.googleapis.com/v0/b/react-32712.appspot.com/o/images%2Fimage-remoeview.png?alt=media&token=ef73b206-21f6-43d9-b87c-ecbc9c8ec38b",
+      "id": 3
     }
   ],
   "users": [
@@ -23,8 +45,8 @@
       "address": "Thanh Hoa",
       "created_at": "07-05-2024",
       "updated_at": "07-05-2024",
-      "password": "1231312312",
-      "status": false,
+      "password": "123456",
+      "status": true,
       "cart": [],
       "fname": "Pham",
       "lname": "Minh"
@@ -40,7 +62,7 @@
       "created_at": "07-05-2024",
       "updated_at": "07-05-2024",
       "password": "1231312312",
-      "status": false,
+      "status": true,
       "cart": [],
       "fname": "Pham",
       "lname": "Hai"
@@ -56,7 +78,7 @@
       "created_at": "07-05-2024",
       "updated_at": "07-05-2024",
       "password": "1231312312",
-      "status": true,
+      "status": false,
       "cart": [],
       "fname": "Pham",
       "lname": "Vy"
@@ -64,9 +86,9 @@
     {
       "fname": "Pham Van",
       "lname": "Minh",
-      "username": "Ming321",
+      "username": "Admin",
       "role": true,
-      "email": "aabcxyz012@gmail.com",
+      "email": "admin@gmail.com",
       "password": "123456",
       "phone": "0355129455",
       "address": "Đông Tiến",
@@ -80,14 +102,93 @@
   ],
   "categories": [
     {
+      "name": "Office",
+      "description": "Modern",
+      "status": true,
+      "product": [
+        {
+          "name": "12sad",
+          "price": 123,
+          "quantity": 123,
+          "description": "12312",
+          "category": 1,
+          "created_at": "2024-07-11",
+          "updated_at": "2024-07-11",
+          "image": "https://firebasestorage.googleapis.com/v0/b/react-32712.appspot.com/o/images%2F211-2112234_pepe-the-frog-windows-101..png?alt=media&token=e7bdf80d-884f-4e3d-9980-2701a99d9c19",
+          "id": 1
+        },
+        {
+          "name": "Lamp",
+          "price": 11111111111,
+          "quantity": 12,
+          "description": "1231123123123",
+          "category": 1,
+          "created_at": "2024-07-11",
+          "updated_at": "2024-07-11",
+          "image": "https://firebasestorage.googleapis.com/v0/b/react-32712.appspot.com/o/images%2Fimage-remoeview.png?alt=media&token=ef73b206-21f6-43d9-b87c-ecbc9c8ec38b",
+          "id": 3
+        }
+      ],
+      "image": "https://firebasestorage.googleapis.com/v0/b/react-32712.appspot.com/o/images%2Fcategory-1.jpg?alt=media&token=971fe60a-786a-44b6-ac24-eb258f2fb37a",
       "id": 1,
-      "name": "Bedroom",
-      "image": "https://th.bing.com/th/id/OIP.btwYOFUS1ZiwU42chCiGwgHaHa?rs=1&pid=ImgDetMain"
+      "displayStatus": true
     },
     {
+      "name": "Bedroom",
+      "description": "1231231",
+      "status": true,
+      "product": [
+        {
+          "name": "Bed",
+          "price": 11111111111,
+          "quantity": 123,
+          "description": "Bed",
+          "category": 2,
+          "created_at": "2024-07-11",
+          "updated_at": "2024-07-11",
+          "image": "https://firebasestorage.googleapis.com/v0/b/react-32712.appspot.com/o/images%2F112312-removebg-preview.png?alt=media&token=c22de7e9-0c01-42d8-bef2-8bb2a1c761c0",
+          "id": 2
+        }
+      ],
+      "image": "https://firebasestorage.googleapis.com/v0/b/react-32712.appspot.com/o/images%2Fcategory-1.jpg?alt=media&token=971fe60a-786a-44b6-ac24-eb258f2fb37a",
+      "id": 2,
+      "displayStatus": false
+    },
+    {
+      "name": "Livingroom",
+      "description": "123123123123",
+      "status": true,
+      "product": [],
+      "image": "https://firebasestorage.googleapis.com/v0/b/react-32712.appspot.com/o/images%2Fcategory-4.jpg?alt=media&token=c0a6bb0d-36a9-4470-9911-a79815ace89b",
       "id": 3,
-      "name": "Office",
-      "image": "https://th.bing.com/th/id/OIP.btwYOFUS1ZiwU42chCiGwgHaHa?rs=1&pid=ImgDetMain"
+      "displayStatus": false
+    },
+    {
+      "name": "Restroom",
+      "description": "123123123123",
+      "status": true,
+      "product": [],
+      "image": "https://firebasestorage.googleapis.com/v0/b/react-32712.appspot.com/o/images%2Fcategory-5.jpg?alt=media&token=2e96e22e-25e2-4863-a854-2acbfa64c2fe",
+      "id": 4,
+      "displayStatus": false
+    },
+    {
+      "name": "Kitchen",
+      "description": "1231231312",
+      "status": true,
+      "product": [],
+      "image": "https://firebasestorage.googleapis.com/v0/b/react-32712.appspot.com/o/images%2Fcategory-6.jpg?alt=media&token=170cdef4-a185-44c2-a091-36a66adde2aa",
+      "id": 5,
+      "displayStatus": false
+    },
+    {
+      "name": "Bathroom",
+      "description": "12312313",
+      "status": true,
+      "product": [],
+      "image": "https://firebasestorage.googleapis.com/v0/b/react-32712.appspot.com/o/images%2Fopen-bathroom.jpg?alt=media&token=09a549a9-fa53-4630-98d3-65c999139115",
+      "id": 6,
+      "displayStatus": false
     }
   ]
 }

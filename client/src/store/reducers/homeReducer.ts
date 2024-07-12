@@ -3,8 +3,8 @@ import axios from "axios"
 
 const initialState:any = []
 
-export const allUsers:any = createAsyncThunk("check/checkAdminAccount", async () =>{
-    const response = await axios.get(" http://localhost:8080/user")
+export const getAllUsers:any = createAsyncThunk("check/checkAdminAccount", async () =>{
+    const response = await axios.get("http://localhost:8080/users")
     return response.data;
 })
 
@@ -39,10 +39,20 @@ export const getUser:any = createAsyncThunk(
     return false;
   })
 
+  export const setCurrentUser:any = createAsyncThunk("users/getCurrentUser", async(user:any)=>{
+    const response = await axios.get(`http://localhost:8080/users/${user.id}`)
+    console.log(response.data);
+    
+    return response.data
+    
+  })
+  const getCurrentUser = createAsyncThunk("users/getCurrentUser", async()=>{
+    
+  })
+
 const homeReducer = createSlice({
     name: "homeReducer",
     initialState: {
-        initialState:initialState,
         // tk đang đăng nhập
         loginUser:{},
         // tk đang đăng kí
@@ -54,25 +64,21 @@ const homeReducer = createSlice({
         },
         formLogin:false,
         formRegister:false,
-        error: null,
         users: [],
     },
     reducers: {
        
     },
     extraReducers(builder) {
-        builder.addCase(allUsers.fulfilled,(state:any,action:any)=>{
-            state.initialState = action.payload
+        builder
+        .addCase(getAllUsers.pending, (state) => {
         })
-        .addCase(allUsers.pending, (state) => {
-            state.initialState = "loading";
+        .addCase(getAllUsers.fulfilled,(state:any,action:any)=>{
+            state.users = action.payload
+        })
+          .addCase(getAllUsers.rejected, (state, action) => {
           })
-          .addCase(allUsers.rejected, (state, action) => {
-            state.initialState = "failed";
-          })
-          .addCase(openForm.fulfilled, (state,action) => {
-            console.log(action.payload);
-            
+          .addCase(openForm.fulfilled, (state,action) => {            
             state.formLogin = action.payload;
           })
           .addCase(closeForm.fulfilled, (state,action) => {
@@ -90,6 +96,9 @@ const homeReducer = createSlice({
           })
           .addCase(closeRegisterForm.fulfilled, (state, action) => {
             state.formRegister = action.payload;
+          })
+          .addCase(setCurrentUser.fulfilled, (state, action) => {
+            state.loginUser = action.payload;
           })
     },
 })

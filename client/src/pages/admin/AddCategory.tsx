@@ -27,6 +27,7 @@ export default function AddCategory() {
     status: true,
     description: "",
     product: [],
+    displayStatus: false,
   });
   const uploadImage = (e: any) => {
     e.preventDefault();
@@ -40,6 +41,7 @@ export default function AddCategory() {
           description: cate.description,
           status: cate.status,
           product: cate.product,
+          image: url,
         };
         console.log(category);
 
@@ -51,6 +53,7 @@ export default function AddCategory() {
       status: true,
       description: "",
       product: [],
+      displayStatus: false,
     });
 
     setSelectedFile(false);

@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  checkEmailAdmin,
-  getUserAdmin,
-} from "../../store/reducers/adminReducer";
+import {} from "../../store/reducers/adminReducer";
+import { checkEmailAdmin } from "../../services/admin";
+import { getUserAdmin } from "../../services/addCustomer";
 
 export default function AddCustomer() {
   const date1 = new Date().toISOString().split("T")[0];

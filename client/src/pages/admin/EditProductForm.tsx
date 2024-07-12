@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../../config/firebase";
-import { closeEditFormP, editProduct } from "../../store/reducers/adminReducer";
+import {} from "../../store/reducers/adminReducer";
+import { closeEditFormP, editProduct } from "../../services/editProductForm";
 
 export default function EditProductForm() {
   const date = new Date().toISOString().split("T")[0];
@@ -138,17 +139,18 @@ export default function EditProductForm() {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700">Quantity</label>
+            <label className="block text-gray-700">Category</label>
             <select
-              onChange={handleChange}
               value={inputValue.category}
-              className="w-[100%]"
+              onChange={handleChange}
               name="category"
-              id=""
             >
-              <option value=""> -- Select your category --</option>
-              <option value={1}>Bedroom</option>
-              <option value={2}>Office</option>
+              <option value="">-- Select your category --</option>
+              {state.admin.categories.map((category: any) => (
+                <option key={category.id} value={category.id}>
+                  {category.name}
+                </option>
+              ))}
             </select>
           </div>
           <div className="flex justify-center">

@@ -1,15 +1,15 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import {} from "../../store/reducers/adminReducer";
+import DeleteCategoryForm from "./DeleteCategoryForm";
+import EditCategoryForm from "./EditCategoryForm";
 import {
-  deleteCategory,
   delFormOpen,
   editFormOpen,
   getAllCategories,
   getDeletedCategory,
   getEditedCategory,
-} from "../../store/reducers/adminReducer";
-import DeleteCategoryForm from "./DeleteCategoryForm";
-import EditCategoryForm from "./EditCategoryForm";
+} from "../../services/allCategory";
 
 export default function AllCategory() {
   const state: any = useSelector((state) => state);

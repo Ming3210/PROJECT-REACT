@@ -1,118 +1,21 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import User from "../../interface";
+// import User from "../../interface";
+import { getUserAdmin } from "../../services/addCustomer";
+import { addProduct, openDeleteFormP } from "../../services/addProduct";
+import { delFormOpen, editFormOpen, getAllCategories, getDeletedCategory, getEditedCategory } from "../../services/allCategory";
+import {  allUsers } from "../../services/allCustomer";
+import { changeUserStatus, customerDisplayForm, display } from "../../services/allCustomer";
+import { customerDisplayFormOff } from "../../services/customerDisplay";
+import { getAllProducts, getDeletedProduct, getEditedProduct, openEditFormP } from "../../services/allProduct";
+import { checkEmailAdmin } from "../../services/admin";
+import { deleteCategory, delFormClose } from "../../services/deleteCategoryForm";
+import { closeDeleteFormP, deleteProduct } from "../../services/deleteProduct";
+import { closeEditFormP, editProduct } from "../../services/editProductForm";
+import { editCategory, editFormClose } from "../../services/editCategoryForm";
 
 
-const initialState:User[]=[]
-
-
-
-export const allUsers:any = createAsyncThunk("get/getAllUsers", async (user: any) => {
-  const response = await axios.get("http://localhost:8080/users");
-    return response.data;
-})
-export const getUserAdmin:any = createAsyncThunk(
-  "newUser/registerUser",
-  async (user) => {
-    const response = await axios.post("http://localhost:8080/users", user);
-    return response.data;
-  }
-);
-export const checkEmailAdmin:any = createAsyncThunk(
-  "users/checkEmail",
-  async (email:any) => {
-    // console.log();
-    
-    const response = await axios.get(`http://localhost:8080/users?email=${email.email}`);
-    return response.data;
-  }
-);
-export const changeUserStatus:any = createAsyncThunk("change/changeStatus", async (user:any) => {
-  // console.log(user);
-  
-  const response = await axios.put(`http://localhost:8080/users/${user.id}`,{...user,status:!user.status}) ;
-    return response.data;
-  
-})
-export const customerDisplayForm:any = createAsyncThunk("on/onDisplay", async () => {
-  return true
-})
-export const customerDisplayFormOff:any = createAsyncThunk("close/closeDisplay", async () => {
-  return false
-})
-export const display:any = createAsyncThunk("display/customerDisplay", async (user:any) => {
-  return user;
-})
-export const getAllCategories:any = createAsyncThunk("get/getCategory", async (user:any) => {
-  const response = await axios.get("http://localhost:8080/categories");
-    return response.data;
-})
-
-export const deleteCategory: any = createAsyncThunk(
-  "delete/category",
-  async (id: any) => {
-    await axios.delete(`http://localhost:8080/categories/${id}`);
-    return { id };
-  }
-);
-
-export const delFormOpen :any = createAsyncThunk("open/deleteForm", async ()=>{
-  return true
-})
-export const delFormClose :any = createAsyncThunk("close/deleteForm", async ()=>{
-  return false
-})
-export const editFormOpen :any = createAsyncThunk("open/editForm", async ()=>{
-  return true
-})
-export const editFormClose :any = createAsyncThunk("close/editForm", async ()=>{
-  return false
-})
-
-export const getDeletedCategory: any = createAsyncThunk("get/category", async(cate)=>{
-  return cate
-})
-export const getEditedCategory: any = createAsyncThunk("get/edit", async(cate)=>{
-  return cate
-})
-export const editCategory: any = createAsyncThunk("edit/category", async(category:any)=>{
-  const response = await axios.patch(`http://localhost:8080/categories/${category.id}`,category)
-  return response.data
-})
-export const getAllProducts: any = createAsyncThunk("get/allProducts", async ()=>{
-  const response = await axios.get(`http://localhost:8080/products?`);
-    return response.data;
-})
-export const openDeleteFormP: any = createAsyncThunk("open/product", async ()=>{
-  return true
-})
-export const closeDeleteFormP: any = createAsyncThunk("close/product", async ()=>{
-  return false
-})
-export const openEditFormP: any = createAsyncThunk("openEdit/product", async ()=>{
-  return true
-})
-export const closeEditFormP: any = createAsyncThunk("closeEdit/product", async ()=>{
-  return false
-})
-export const getDeletedProduct :any = createAsyncThunk("get/product", async (prd)=>{
-  return prd
-})
-export const deleteProduct :any = createAsyncThunk("delete/product", async (id:any)=>{
-  await axios.delete(`http://localhost:8080/products/${id}`);
-  return {id}
-})
-export const getEditedProduct :any = createAsyncThunk("getEdited/product", async (prd)=>{
-  return prd
-})
-export const addProduct :any = createAsyncThunk("add/product", async(prd)=>{
-  const response = await axios.post(`http://localhost:8080/products`,prd)
-  return response.data
-})
-export const editProduct : any = createAsyncThunk("edit/product", async (prd:any)=>{
-  const response = await axios.patch(`http://localhost:8080/products/${prd.id}`,prd)
-  return response.data
-})
+const initialState:any=[]
 
 const adminReducer = createSlice({
   name: "adminReducer",
@@ -130,10 +33,6 @@ const adminReducer = createSlice({
     editFormProduct:false,
     deletedProduct:{},
     editedProduct:{}
-
-    // error: null,
-    // loading: false,
-    // user: null as User | null,
   },
   reducers: {
   },
@@ -153,7 +52,7 @@ const adminReducer = createSlice({
         state.user = action.payload;
       })
       .addCase(changeUserStatus.fulfilled, (state, action) => {
-        const updatedUserIndex = state.users.findIndex((u) => u.id === action.payload.id);
+        const updatedUserIndex = state.users.findIndex((u:any) => u.id === action.payload.id);
         if (updatedUserIndex !== -1) {
           state.users[updatedUserIndex] = action.payload;
         }
@@ -169,6 +68,7 @@ const adminReducer = createSlice({
       })
       .addCase(getAllCategories.fulfilled, (state, action) => {
         state.categories = action.payload;
+        
       })
       .addCase(deleteCategory.fulfilled, (state: any, action: any) => {
         state.categories = state.categories.filter((category: any) => category.id !== action.payload.id);
@@ -217,9 +117,28 @@ const adminReducer = createSlice({
       })
       .addCase(deleteProduct.fulfilled, (state:any, action:any) => {
         state.products = state.products.filter((product:any) => product.id!== action.payload.id);
+
       })
-      .addCase(addProduct.fulfilled, (state:any,action:any) => {
-        state.products.push(action.payload);
+      
+      .addCase(addProduct.fulfilled, (state:any, action: any) => {
+        const { product, categories } = action.payload;
+
+        state.products.push(product);
+
+        state.categories = categories;
+
+        const categoryIndex = state.categories.findIndex((cat:any) => cat.id === product.category);
+
+        console.log(categoryIndex); 
+
+        let a:any = state.categories[categoryIndex]
+        if (categoryIndex !== -1) {
+        
+
+          state.categories[categoryIndex].product.push(product);
+        }
+        axios.patch(`http://localhost:8080/categories/${state.categories[categoryIndex].id}`, a)
+        console.log(state.categories); // Log updated categories state
       })
       .addCase(getEditedProduct.fulfilled, (state, action) => {
         state.editedProduct = action.payload;
@@ -230,6 +149,7 @@ const adminReducer = createSlice({
           state.products[updatedProductIndex] = action.payload;
         }
       })
+      
       ;
 
   },

@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import {} from "../../store/reducers/adminReducer";
+import DeleteProductForm from "./DeleteProductForm";
+import EditProductForm from "./EditProductForm";
 import {
-  getAllCategories,
   getAllProducts,
   getDeletedProduct,
   getEditedProduct,
-  openDeleteFormP,
   openEditFormP,
-} from "../../store/reducers/adminReducer";
-import DeleteProductForm from "./DeleteProductForm";
-import EditProductForm from "./EditProductForm";
+} from "../../services/allProduct";
+import { getAllCategories } from "../../services/allCategory";
+import { openDeleteFormP } from "../../services/addProduct";
 
 export default function AllProduct() {
   const [categories, setCategories] = useState<string[]>([]);
@@ -22,9 +23,10 @@ export default function AllProduct() {
     dispatch(getAllCategories());
   }, []);
 
-  let cateList = state.admin.categories.map((category: any) => {
-    return category.name;
-  });
+  // let cateList = state.admin.categories.map((category: any) => {
+  //   return category.name;
+  // });
+  // console.log(cateList);
 
   const openDeleteForm = (id: any) => {
     let index = state.admin.products.find((product: any) => product.id === id);
@@ -78,6 +80,9 @@ export default function AllProduct() {
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
           {state.admin.products.map((item: any, index: any) => {
+            let a = state.admin.categories.find((cateList: any) => {
+              return cateList.id === item.category;
+            });
             return (
               <tr key={index}>
                 <td className="px-6 py-4 whitespace-nowrap">{item.name}</td>
@@ -95,7 +100,7 @@ export default function AllProduct() {
                   {item.updated_at}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  {cateList[index]}
+                  {a ? a.name : "Loading..."}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <img

@@ -1,9 +1,10 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import {} from "../../store/reducers/adminReducer";
 import {
   deleteCategory,
   delFormClose,
-} from "../../store/reducers/adminReducer";
+} from "../../services/deleteCategoryForm";
 
 export default function DeleteCategoryForm() {
   const state: any = useSelector((state) => state);

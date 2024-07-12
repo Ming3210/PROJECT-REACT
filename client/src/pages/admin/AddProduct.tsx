@@ -3,10 +3,14 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../../config/firebase";
 import axios from "axios";
 import { Product } from "../../interface";
-import { useDispatch } from "react-redux";
-import { addProduct } from "../../store/reducers/adminReducer";
+import { useDispatch, useSelector } from "react-redux";
+import {} from "../../store/reducers/adminReducer";
+import { getAllCategories } from "../../services/allCategory";
+import { addProduct } from "../../services/addProduct";
 
 export default function AddProduct() {
+  const state: any = useSelector((state) => state);
+  const [category, setCategory] = useState<any[]>([]);
   const [selectedFile, setSelectedFile] = useState<any>();
   const [preview, setPreview] = useState<any>();
 
@@ -23,7 +27,6 @@ export default function AddProduct() {
     return () => URL.revokeObjectURL(objectUrl);
   }, [selectedFile]);
   let date = new Date().toISOString().split("T")[0];
-  console.log(date);
 
   const [image, setImage] = useState<any>("");
   const [inputValue, setInputValue] = useState<any>({
@@ -37,9 +40,18 @@ export default function AddProduct() {
     updated_at: "",
   });
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllCategories());
+  }, [dispatch]);
+
+  useEffect(() => {
+    setCategory(state.admin.categories);
+  }, [state.admin.categories]);
+
   const uploadImage = () => {
     const imageRef = ref(storage, `images/${image.name}`);
-    uploadBytes(imageRef, image).then((snapshot) => {
+    uploadBytes(imageRef, image).then((snapshot: any) => {
       getDownloadURL(snapshot.ref).then((url: any) => {
         console.log(url);
         const product = {
@@ -52,8 +64,17 @@ export default function AddProduct() {
           updated_at: date,
           image: url,
         };
+
         console.log(product);
-        dispatch(addProduct(product));
+        console.log({ product, category });
+
+        dispatch(addProduct({ prd: product, cate: category }));
+        console.log(state.admin.categories);
+        console.log(category);
+
+        // const updatedCategory = state.admin.categories.findIndex((c:any) => c.product === product.category)
+
+        // dispatch(getAllCategories());
       });
     });
 
@@ -67,7 +88,6 @@ export default function AddProduct() {
 
     setSelectedFile(e.target.files[0]);
     let valueImage: any = e.target.files?.[0];
-    console.log(111, valueImage);
     setImage(valueImage);
   };
 
@@ -77,7 +97,6 @@ export default function AddProduct() {
       [e.target.name]: e.target.value,
     });
   };
-  console.log(inputValue);
 
   return (
     <div>
@@ -113,12 +132,15 @@ export default function AddProduct() {
         value={inputValue.category}
         onChange={handleChanges}
         name="category"
-        id=""
       >
-        <option value="1">-- Select your category --</option>
-        <option value="1">Bedroom</option>
-        <option value="2">Office</option>
+        <option value="">-- Select your category --</option>
+        {state.admin.categories.map((category: any) => (
+          <option key={category.id} value={category.id}>
+            {category.name}
+          </option>
+        ))}
       </select>
+
       <br />
       <label htmlFor="">Description</label>
       <br />

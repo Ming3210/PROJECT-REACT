@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { customerDisplayFormOff } from "../../store/reducers/adminReducer";
+import {} from "../../store/reducers/adminReducer";
+import { customerDisplayFormOff } from "../../services/customerDisplay";
 
 export default function CustomerDisplay() {
   const state: any = useSelector((state) => state);
