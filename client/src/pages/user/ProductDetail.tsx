@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { FaHome, FaShoppingBag } from "react-icons/fa";
 import { FaChevronRight } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,6 +7,8 @@ import { getAllProducts } from "../../services/allProduct";
 import { getAllCategories } from "../../services/allCategory";
 import { allUsers } from "../../services/allCustomer";
 import { getAllUsers, setCurrentUser } from "../../store/reducers/homeReducer";
+import axios from "axios";
+import type { CartItem, Product, User } from "../../interface";
 
 export default function ProductDetail() {
   const [name, setName] = useState<string>("");
@@ -21,9 +23,9 @@ export default function ProductDetail() {
     dispatch(getAllUsers());
     dispatch(getAllCategories());
   }, []);
-  const product = state.admin.products.find(
-    (product: any) => product.id === Number(id)
-  );
+  const product: Product | undefined = useMemo(() => {
+    return state.admin.products.find((p: Product) => p.id === Number(id));
+  }, [state.admin.products, id]);
   // const [items, setItems] = useState<any>({
   //   name: product.name,
   //   price: product.price,
@@ -49,7 +51,11 @@ export default function ProductDetail() {
   }, [product, state.admin.categories]);
 
   if (!product) {
-    return <div>Loading...</div>; // Handle loading state or not found
+    return (
+      <div className="container p-6">
+        <p className="text-gray-600">Sản phẩm không tồn tại hoặc đã bị xóa.</p>
+      </div>
+    );
   }
 
   // const user = state.home.users.find(
@@ -57,7 +63,34 @@ export default function ProductDetail() {
   // );
   // console.log(user, 123123213);
 
-  const addToCart = () => {};
+  const addToCart = async () => {
+    if (!state.home.loginUser?.id) return;
+    const user: User | undefined = state.home.users.find((u: User) => u.id === state.home.loginUser.id);
+    if (!user || !product) return;
+
+    const existingIndex = user.cart.findIndex((c) => c.productId === product.id);
+    const nextQuantity = Math.min(
+      (existingIndex !== -1 ? user.cart[existingIndex].quantity : 0) + quantity,
+      product.quantity
+    );
+    const newCart: CartItem[] = [...user.cart];
+    if (existingIndex !== -1) {
+      newCart[existingIndex] = {
+        ...newCart[existingIndex],
+        quantity: nextQuantity,
+      };
+    } else {
+      newCart.push({
+        productId: product.id,
+        name: product.name,
+        price: product.price,
+        quantity: Math.min(quantity, product.quantity),
+        image: product.image,
+      });
+    }
+    await axios.patch(`http://localhost:8080/users/${user.id}`, { cart: newCart });
+    dispatch(getAllUsers());
+  };
 
   const quantityDown = () => {
     if (quantity > 1) {

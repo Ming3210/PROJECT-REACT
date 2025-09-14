@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import User from "../../interface/index";
 import {} from "../../store/reducers/adminReducer";
@@ -16,19 +16,37 @@ export default function AllCustomer() {
   const [inputValue, setInputValue] = useState<string>("");
   const [user, setUser] = useState<User[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [pageSize, setPageSize] = useState<number>(2);
+  const [pageSize, setPageSize] = useState<number>(8);
   const [totalPage, setTotalPage] = useState<number>(0);
+  const [sortBy, setSortBy] = useState("username");
+  const [sortDir, setSortDir] = useState<"asc"|"desc">("asc");
+  const [formOpen, setFormOpen] = useState(false);
+  const [filePreview, setFilePreview] = useState<string>("");
+  const [newUser, setNewUser] = useState<any>({
+    fname: "",
+    lname: "",
+    username: "",
+    email: "",
+    password: "",
+    phone: "",
+    address: "",
+    avatar: "",
+    role: false,
+    status: true,
+    cart: []
+  });
   const dispatch = useDispatch();
 
   const searching = () => {
-    axios
-      .get(
-        `http://localhost:8080/users?username_like=${inputValue}&_page=${currentPage}&_limit=${pageSize}`
-      )
-      .then((response: AxiosResponse) => {
-        setUser(response.data);
-        console.log(response.data);
-      });
+    const params:any = {
+      _page: currentPage,
+      _limit: pageSize,
+    };
+    if (inputValue.trim()) params.username_like = inputValue;
+    if (sortBy) { params._sort = sortBy; params._order = sortDir; }
+    axios.get(`http://localhost:8080/users`, { params }).then((response: AxiosResponse) => {
+      setUser(response.data);
+    });
   };
 
   useEffect(() => {
@@ -37,11 +55,11 @@ export default function AllCustomer() {
       const totalPage = totalItems / pageSize;
       setTotalPage(Math.ceil(totalPage));
     });
-  }, [pageSize]);
+  }, [pageSize, inputValue]);
 
   useEffect(() => {
     searching();
-  }, [inputValue, currentPage]);
+  }, [inputValue, currentPage, sortBy, sortDir]);
 
   const changeStatus: any = (user: any) => {
     dispatch(changeUserStatus(user));
@@ -92,18 +110,57 @@ export default function AllCustomer() {
   };
   return (
     <div>
-      {/* <div>Tìm kiếm</div> */}
       {state.admin.Cdisplay ? <CustomerDisplay></CustomerDisplay> : ""}
-      <div className="text-end">
-        <input
-          value={inputValue}
-          onChange={handleChange}
-          // onChange={(e) => setInputValue(e.target.value)}
-          type="text"
-          className="h-[25px] rounded-md placeholder:pl-2"
-          placeholder="Tìm kiếm theo tên"
-        />
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex gap-2">
+          <input
+            value={inputValue}
+            onChange={handleChange}
+            type="text"
+            className="border px-3 py-2 rounded"
+            placeholder="Tìm kiếm theo tên"
+          />
+          <select value={sortBy} onChange={(e)=>setSortBy(e.target.value)} className="border px-2 py-2 rounded">
+            <option value="username">Tên</option>
+            <option value="email">Email</option>
+          </select>
+          <select value={sortDir} onChange={(e)=>setSortDir(e.target.value as any)} className="border px-2 py-2 rounded">
+            <option value="asc">Tăng dần</option>
+            <option value="desc">Giảm dần</option>
+          </select>
+        </div>
+        <button onClick={()=>setFormOpen(true)} className="px-3 py-2 bg-green-600 text-white rounded">Thêm khách hàng</button>
       </div>
+      {formOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white w-full max-w-3xl rounded shadow-lg p-4">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-lg font-semibold">Thêm khách hàng</h3>
+              <button onClick={()=>setFormOpen(false)} className="text-gray-500 hover:text-black">✕</button>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+              <input className="border px-2 py-2 rounded" placeholder="Họ" value={newUser.fname} onChange={(e)=>setNewUser({...newUser, fname:e.target.value})} />
+              <input className="border px-2 py-2 rounded" placeholder="Tên" value={newUser.lname} onChange={(e)=>setNewUser({...newUser, lname:e.target.value})} />
+              <input className="border px-2 py-2 rounded" placeholder="Username" value={newUser.username} onChange={(e)=>setNewUser({...newUser, username:e.target.value})} />
+              <input className="border px-2 py-2 rounded" placeholder="Email" value={newUser.email} onChange={(e)=>setNewUser({...newUser, email:e.target.value})} />
+              <input className="border px-2 py-2 rounded" placeholder="Mật khẩu" type="password" value={newUser.password} onChange={(e)=>setNewUser({...newUser, password:e.target.value})} />
+              <input className="border px-2 py-2 rounded" placeholder="SĐT" value={newUser.phone} onChange={(e)=>setNewUser({...newUser, phone:e.target.value})} />
+              <input className="border px-2 py-2 rounded md:col-span-2" placeholder="Địa chỉ" value={newUser.address} onChange={(e)=>setNewUser({...newUser, address:e.target.value})} />
+              <div className="flex flex-col gap-2">
+                {filePreview ? <img src={filePreview} alt="preview" className="w-20 h-20 object-cover rounded border" /> : null}
+                <input className="border px-2 py-2 rounded" type="file" accept="image/*" onChange={(e:any)=>{
+                  const f = e.target.files?.[0];
+                  if (!f) return; const r = new FileReader(); r.onload=()=>{ const d=r.result as string; setNewUser({...newUser, avatar:d}); setFilePreview(d); }; r.readAsDataURL(f);
+                }} />
+              </div>
+            </div>
+            <div className="mt-4 flex justify-end gap-2">
+              <button onClick={()=>setFormOpen(false)} className="px-4 py-2 border rounded">Hủy</button>
+              <button onClick={async()=>{ await axios.post('http://localhost:8080/users', newUser); setNewUser({ fname:"", lname:"", username:"", email:"", password:"", phone:"", address:"", avatar:"", role:false, status:true, cart:[] }); setFilePreview(""); setFormOpen(false); searching(); }} className="px-4 py-2 bg-blue-600 text-white rounded">Lưu</button>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">

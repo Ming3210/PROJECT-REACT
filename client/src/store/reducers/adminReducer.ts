@@ -13,6 +13,7 @@ import { deleteCategory, delFormClose } from "../../services/deleteCategoryForm"
 import { closeDeleteFormP, deleteProduct } from "../../services/deleteProduct";
 import { closeEditFormP, editProduct } from "../../services/editProductForm";
 import { editCategory, editFormClose } from "../../services/editCategoryForm";
+import { getAllOrders, updateOrder } from "../../services/orders";
 
 
 const initialState:any=[]
@@ -29,6 +30,7 @@ const adminReducer = createSlice({
     editForm:false,
     editedCategory:{},
     products:[],
+    orders:[],
     deleteFormProduct:false,
     editFormProduct:false,
     deletedProduct:{},
@@ -99,6 +101,14 @@ const adminReducer = createSlice({
       })
       .addCase(getAllProducts.fulfilled, (state, action) => {
         state.products = action.payload;
+      })
+      // Orders
+      .addCase(getAllOrders.fulfilled, (state:any, action:any) => {
+        state.orders = action.payload;
+      })
+      .addCase(updateOrder.fulfilled, (state:any, action:any) => {
+        const idx = state.orders.findIndex((o:any) => o.id === action.payload.id);
+        if (idx !== -1) state.orders[idx] = action.payload;
       })
       .addCase(openDeleteFormP.fulfilled, (state,action) => {
         state.deleteFormProduct = action.payload;

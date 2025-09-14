@@ -6,16 +6,16 @@ import Page from "./pages/user/Page";
 import Admin from "./pages/admin/Admin";
 import Dashboard from "./pages/admin/Dashboard";
 import Cart from "./pages/user/Cart";
-import AddProduct from "./pages/admin/AddProduct";
 import AllCustomer from "./pages/admin/AllCustomer";
-import AddCategory from "./pages/admin/AddCategory";
 import AllProduct from "./pages/admin/AllProduct";
-import AddCustomer from "./pages/admin/AddCustomer";
 import AllCategory from "./pages/admin/AllCategory";
 import Category from "./pages/user/Category";
 import Home from "./pages/user/Home";
 import ProductDetail from "./pages/user/ProductDetail";
-import CartAdmin from "./pages/admin/CartAdmin";
+import Checkout from "./pages/user/Checkout";
+import Wishlist from "./pages/user/Wishlist";
+import UserDetail from "./pages/user/UserDetail";
+import Orders from "./pages/admin/Orders";
 
 export default function App() {
   // alert("email: admin@gmail.com\npassword:123456");
@@ -30,6 +30,9 @@ export default function App() {
           ></Route>
           <Route path="category" element={<Category></Category>}></Route>
           <Route path="cart" element={<Cart></Cart>}></Route>
+          <Route path="checkout" element={<Checkout></Checkout>}></Route>
+          <Route path="wishlist" element={<Wishlist></Wishlist>}></Route>
+          <Route path="user-detail" element={<UserDetail></UserDetail>}></Route>
         </Route>
 
         <Route path="/register" element={<Register></Register>}></Route>
@@ -44,16 +47,10 @@ export default function App() {
             path="check-product"
             element={<AllProduct></AllProduct>}
           ></Route>
-          <Route path="cart" element={<CartAdmin></CartAdmin>}></Route>
-          <Route path="add-product" element={<AddProduct></AddProduct>}></Route>
+          <Route path="cart" element={<Orders></Orders>}></Route>
           <Route
             path="check-user"
             element={<AllCustomer></AllCustomer>}
-          ></Route>
-          <Route path="add-user" element={<AddCustomer></AddCustomer>}></Route>
-          <Route
-            path="add-category"
-            element={<AddCategory></AddCategory>}
           ></Route>
         </Route>
       </Routes>

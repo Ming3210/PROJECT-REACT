@@ -72,11 +72,6 @@ export default function Admin() {
                   label: "All customer",
                   icon: <UploadOutlined />,
                 },
-                {
-                  key: "add-user",
-                  label: "Add customer",
-                  icon: <IoAdd />,
-                },
               ],
             },
             {
@@ -85,18 +80,8 @@ export default function Admin() {
               label: "Product Management",
               children: [
                 {
-                  key: "add-product",
-                  label: "Add new product",
-                  icon: <UploadOutlined />,
-                },
-                {
                   key: "check-product",
                   label: "All product",
-                  icon: <UploadOutlined />,
-                },
-                {
-                  key: "add-category",
-                  label: "Add new category",
                   icon: <UploadOutlined />,
                 },
                 {
@@ -109,7 +94,7 @@ export default function Admin() {
             {
               key: "cart",
               icon: <FaCartPlus />,
-              label: "Cart Management",
+              label: "Orders Management",
             },
             {
               key: "logout",

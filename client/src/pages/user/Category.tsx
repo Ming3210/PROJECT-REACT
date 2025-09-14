@@ -60,20 +60,17 @@ export default function Category() {
               <h3 className="text-xl text-gray-900 mb-3 uppercase font-medium">
                 Categories
               </h3>
-              {state.admin.categories.map((item: any) => {
-                return (
-                  <div key={item.id} className="space-y-2 mb-2">
-                    <div className="flex items-center">
-                      <button onClick={() => handleChange(item)}>
-                        {item.name}
-                      </button>
-                      <div className="ml-auto text-gray-600 text-sm">
-                        ({item.product.length})
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
+              <div className="flex flex-wrap gap-2">
+                {state.admin.categories.map((item: any) => (
+                  <button
+                    key={item.id}
+                    onClick={() => handleChange(item)}
+                    className={`px-3 py-1 rounded-full border transition ${item.displayStatus ? "bg-red-500 text-white border-red-500" : "bg-white text-gray-700 hover:bg-gray-100"}`}
+                  >
+                    {item.name}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -91,38 +88,28 @@ export default function Category() {
           </select>
 
           <div className="grid grid-cols-3 gap-6">
-            {state.admin.categories.map((item: any) => {
-              if (item.displayStatus) {
-                return item.product.map((product: any) => {
-                  return (
-                    <div
-                      key={product.id}
-                      className="bg-white shadow rounded overflow-hidden group"
-                    >
-                      <div
-                        onClick={() => handleClick(product.id)}
-                        className="relative"
-                      >
-                        <img
-                          src={product.image}
-                          className="w-full"
-                          alt={product.name}
-                        />
-                        <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition">
-                          <Link
-                            to=""
-                            className="text-white text-lg w-9 h-8 rounded-full bg-red-400 flex items-center justify-center hover:bg-gray-800 transition"
-                          >
-                            <BsFillSearchHeartFill />
-                          </Link>
-                        </div>
+            {state.admin.categories.flatMap((cat: any) => {
+              if (!cat.displayStatus) return [];
+              const productIds = Array.isArray(cat.product) ? cat.product : [];
+              return productIds
+                .map((pid: number) => state.admin.products.find((p: any) => p.id === pid))
+                .filter(Boolean)
+                .map((product: any) => (
+                  <div key={product.id} className="bg-white shadow rounded overflow-hidden group">
+                    <div onClick={() => handleClick(product.id)} className="relative cursor-pointer">
+                      <img src={product.image} className="w-full h-48 object-cover" alt={product.name} />
+                      <div className="p-3">
+                        <p className="font-semibold line-clamp-1">{product.name}</p>
+                        <p className="text-red-500">{product.price.toLocaleString("it-IT", { style: "currency", currency: "VND" })}</p>
+                      </div>
+                      <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition">
+                        <span className="text-white text-lg w-9 h-8 rounded-full bg-red-400 flex items-center justify-center hover:bg-gray-800 transition">
+                          <BsFillSearchHeartFill />
+                        </span>
                       </div>
                     </div>
-                  );
-                });
-              }
-
-              return null; // Ensure a return statement is present for non-true statuses
+                  </div>
+                ));
             })}
           </div>
         </div>

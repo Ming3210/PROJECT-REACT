@@ -6,6 +6,7 @@ import { GiScrollUnfurled } from "react-icons/gi";
 import { useDispatch, useSelector } from "react-redux";
 import { openForm, openRegisterForm } from "../../store/reducers/homeReducer";
 import Register from "./Register";
+import Footer from "./Footer";
 import { MdAlignHorizontalLeft } from "react-icons/md";
 import { IoBed } from "react-icons/io5";
 import {} from "../../store/reducers/adminReducer";
@@ -120,35 +121,13 @@ export default function Page() {
                 <span className="capitalize ml-2 text-white">
                   All categories
                 </span>
-                <div className="absolute w-full left-0 top-full bg-white shadow-md py-3 divide-y divide-x divide-gray-300 divide-dashed  opacity-0 group-hover:opacity-100 duration-300 invisible group-hover:visible">
-                  <Link
-                    to=""
-                    className="flex items-center px-6 py-3 hover:bg-gray-100 transition no-underline"
-                  >
-                    <IoBed className="w-5 h-5 object-contain" />
-                    <span className="ml-6 text-gray-600 text-sm">Bed</span>
-                  </Link>
-                  <Link
-                    to=""
-                    className="flex items-center px-6 py-3 hover:bg-gray-100 transition no-underline"
-                  >
-                    <IoBed className="w-5 h-5 object-contain" />
-                    <span className="ml-6 text-gray-600 text-sm">Bed</span>
-                  </Link>
-                  <Link
-                    to=""
-                    className="flex items-center px-6 py-3 hover:bg-gray-100 transition no-underline"
-                  >
-                    <IoBed className="w-5 h-5 object-contain" />
-                    <span className="ml-6 text-gray-600 text-sm">Bed</span>
-                  </Link>
-                  <Link
-                    to=""
-                    className="flex items-center px-6 py-3 hover:bg-gray-100 transition no-underline"
-                  >
-                    <IoBed className="w-5 h-5 object-contain" />
-                    <span className="ml-6 text-gray-600 text-sm">Bed</span>
-                  </Link>
+                <div className="absolute w-full left-0 top-full bg-white shadow-md py-3 divide-y divide-gray-300 divide-dashed opacity-0 group-hover:opacity-100 duration-300 invisible group-hover:visible">
+                  {state.admin.categories.map((c:any) => (
+                    <Link key={c.id} to="/category" className="flex items-center px-6 py-3 hover:bg-gray-100 transition no-underline">
+                      <IoBed className="w-5 h-5 object-contain" />
+                      <span className="ml-6 text-gray-600 text-sm">{c.name}</span>
+                    </Link>
+                  ))}
                 </div>
               </div>
               <div className="flex items-center space-x-6 capitalize">
@@ -215,6 +194,7 @@ export default function Page() {
         {/* categoty */}
       </div>
       <Outlet />
+      <Footer />
     </div>
   );
 }

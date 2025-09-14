@@ -4,6 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import {} from "../../store/reducers/adminReducer";
 import { getAllCategories } from "../../services/allCategory";
 import { editCategory } from "../../services/editCategoryForm";
+import axios from "axios";
+import { useState } from "react";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -11,9 +13,13 @@ export default function Home() {
   const state: any = useSelector((state) => state);
 
   const dispatch = useDispatch();
+  const [suggestions, setSuggestions] = useState<any[]>([]);
+  const [benefits, setBenefits] = useState<any[]>([]);
 
   useEffect(() => {
     dispatch(getAllCategories());
+    axios.get("http://localhost:8080/suggestions").then(r => setSuggestions(r.data));
+    axios.get("http://localhost:8080/benefits").then(r => setBenefits(r.data));
   }, []);
 
   const getCategory = (category: any) => {
@@ -43,7 +49,7 @@ export default function Home() {
         className="bg-cover bg-no-repeat bg-center py-36"
         style={{
           backgroundImage:
-            "url('https://firebasestorage.googleapis.com/v0/b/react-32712.appspot.com/o/images%2Fbanner-bg.jpg?alt=media&token=95495dcd-28fe-423a-8ede-2f6b3614860c')",
+            "url('https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=1600&auto=format&fit=crop')",
         }}
       >
         <div className="container">
@@ -94,6 +100,43 @@ export default function Home() {
             }
           })}
         </div>
+      </div>
+
+      <div className="container py-10">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-2xl font-semibold">Gợi ý hôm nay</h2>
+          <button onClick={()=>navigate('/category')} className="text-red-500">Xem thêm</button>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {suggestions.map((s:any) => (
+            <div key={s.id} className="bg-white border rounded overflow-hidden group">
+              <img src={s.image} alt={s.name} className="w-full h-40 object-cover" />
+              <div className="p-3 space-y-1">
+                <p className="line-clamp-2 text-sm">{s.name}</p>
+                <div className="flex items-center gap-2">
+                  {s.discountPercent ? <span className="text-xs text-red-600 font-semibold">-{s.discountPercent}%</span> : null}
+                  {Array.isArray(s.badges) && s.badges.includes('hot') ? <span className="text-[10px] bg-red-500 text-white px-1 rounded">hot</span> : null}
+                  {Array.isArray(s.badges) && s.badges.includes('new') ? <span className="text-[10px] bg-green-600 text-white px-1 rounded">new</span> : null}
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-red-500 font-semibold">{(s.salePrice||s.price).toLocaleString('it-IT', {style:'currency', currency:'VND'})}</span>
+                  {s.salePrice ? <span className="text-gray-400 line-through text-xs">{s.price.toLocaleString('it-IT', {style:'currency', currency:'VND'})}</span> : null}
+                </div>
+                <div className="text-xs text-gray-500">({s.reviews||0}) • Đã bán {s.sold||0}</div>
+                {Array.isArray(s.colors) && s.colors.length ? <div className="flex flex-wrap gap-1 text-[10px]">{s.colors.map((c:string)=>(<span key={c} className="px-1 py-[1px] border rounded">{c}</span>))}</div> : null}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="container py-10 grid grid-cols-2 md:grid-cols-4 gap-4">
+        {benefits.map((b:any)=> (
+          <div key={b.id} className="bg-white border p-4 rounded text-center">
+            <p className="font-semibold">{b.title}</p>
+            <p className="text-gray-600 text-sm">{b.subtitle}</p>
+          </div>
+        ))}
       </div>
     </div>
   );
